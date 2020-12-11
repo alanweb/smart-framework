@@ -47,7 +47,7 @@ public final class ServletHelper {
      *
      * @return
      */
-    private static HttpServletRequest getRequest() {
+    public static HttpServletRequest getRequest() {
         return SERVLET_HELPER_HOLDER.get().request;
     }
 
@@ -56,7 +56,7 @@ public final class ServletHelper {
      *
      * @return
      */
-    private static HttpServletResponse getResponse() {
+    public static HttpServletResponse getResponse() {
         return SERVLET_HELPER_HOLDER.get().response;
     }
 
@@ -65,7 +65,7 @@ public final class ServletHelper {
      *
      * @return
      */
-    private static HttpSession getSession() {
+    public static HttpSession getSession() {
         return getRequest().getSession();
     }
 
@@ -74,7 +74,7 @@ public final class ServletHelper {
      *
      * @return
      */
-    private static ServletContext getServletContext() {
+    public static ServletContext getServletContext() {
         return getRequest().getServletContext();
     }
 
