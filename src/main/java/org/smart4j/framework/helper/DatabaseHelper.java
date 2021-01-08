@@ -4,6 +4,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ColumnListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -127,14 +128,15 @@ public final class DatabaseHelper {
      * @return
      */
     public static String query(String sql, Object param) {
-        String result = null;
         try {
-            result = QUERY_RUNNER.query(getConnection(), sql, new BeanHandler<>(String.class), param);
-        } catch (SQLException e) {
+            List<String> list = QUERY_RUNNER.query(getConnection(), sql, new ColumnListHandler<>(), param);
+            if (CollectionUtil.isNotEmpty(list))
+                return list.get(0);
+            return null;
+        } catch (Exception e) {
             LOGGER.error("query failure", e);
             throw new RuntimeException(e);
         }
-        return result;
     }
 
     /**
@@ -147,7 +149,7 @@ public final class DatabaseHelper {
     public static Set<String> querySet(String sql, Object param) {
         Set<String> result = null;
         try {
-            List<String> list = QUERY_RUNNER.query(getConnection(), sql, new BeanListHandler<>(String.class), param);
+            List<String> list = QUERY_RUNNER.query(getConnection(), sql, new ColumnListHandler<>(), param);
             result = new HashSet<>(list);
         } catch (SQLException e) {
             LOGGER.error("query failure", e);

@@ -5,15 +5,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/**
- * Action 方法注解
- */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Action {
-
+public @interface PostMapping {
     /**
-     * 请求类型与路径
+     * 请求路径
+     *
      * @return
      */
     String value();
